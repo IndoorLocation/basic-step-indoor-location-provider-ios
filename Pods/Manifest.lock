@@ -1,0 +1,36 @@
+PODS:
+  - AFNetworking (3.2.0):
+    - AFNetworking/NSURLSession (= 3.2.0)
+    - AFNetworking/Reachability (= 3.2.0)
+    - AFNetworking/Security (= 3.2.0)
+    - AFNetworking/Serialization (= 3.2.0)
+    - AFNetworking/UIKit (= 3.2.0)
+  - AFNetworking/NSURLSession (3.2.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.0)
+  - AFNetworking/Security (3.2.0)
+  - AFNetworking/Serialization (3.2.0)
+  - AFNetworking/UIKit (3.2.0):
+    - AFNetworking/NSURLSession
+  - IndoorLocation (1.0.3)
+  - Mapbox-iOS-SDK (3.7.5)
+  - MapwizeForMapbox (1.0.5):
+    - AFNetworking
+    - IndoorLocation (~> 1.0)
+    - Mapbox-iOS-SDK
+
+DEPENDENCIES:
+  - IndoorLocation
+  - MapwizeForMapbox
+
+SPEC CHECKSUMS:
+  AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
+  IndoorLocation: 077b1453d425e2d91b29f497b116d09defeb9b15
+  Mapbox-iOS-SDK: 107e331a7ae02e6be902c1557d3454c54e18ce5b
+  MapwizeForMapbox: 2863d16b2f9cf6f21138a605741d8d07e18d5ea8
+
+PODFILE CHECKSUM: 7c9cf210e2f362c7d10ed58c8bbe05dae5d2039b
+
+COCOAPODS: 1.4.0
