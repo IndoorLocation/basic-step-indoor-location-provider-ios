@@ -2,8 +2,10 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface ILBasicStepLocationProvider : ILIndoorLocationProvider <CLLocationManagerDelegate>
+@interface ILBasicStepLocationProvider : ILIndoorLocationProvider <CLLocationManagerDelegate, ILIndoorLocationProviderDelegate>
 
-- (void) setIndoorLocation:(ILIndoorLocation*) indoorLocation;
+@property (nonatomic) ILIndoorLocationProvider* sourceProvider;
+
+- (instancetype)initWithSourceProvider:(ILIndoorLocationProvider*) sourceProvider;
 
 @end

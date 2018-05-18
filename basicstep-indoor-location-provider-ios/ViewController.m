@@ -6,6 +6,7 @@
 
 @implementation ViewController {
     MapwizePlugin* mapwizePlugin;
+    ILManualIndoorLocationProvider* sourceProvider;
     ILBasicStepLocationProvider* basicStepProvider;
 }
 
@@ -21,16 +22,17 @@
 }
 
 - (void)mapwizePluginDidLoad:(MapwizePlugin *)mapwizePlugin {
-    basicStepProvider = [[ILBasicStepLocationProvider alloc] init];
+    sourceProvider = [[ILManualIndoorLocationProvider alloc] init];
+    basicStepProvider = [[ILBasicStepLocationProvider alloc] initWithSourceProvider:sourceProvider];
+    
     [mapwizePlugin setIndoorLocationProvider:basicStepProvider];
+    
+    [sourceProvider start];
 }
 
 - (void)plugin:(MapwizePlugin *)plugin didTapOnMap:(MWZLatLngFloor *)latLngFloor {
-    ILIndoorLocation* indoorLocation = [[ILIndoorLocation alloc] init];
-    indoorLocation.latitude = latLngFloor.coordinates.latitude;
-    indoorLocation.longitude = latLngFloor.coordinates.longitude;
-    indoorLocation.floor = latLngFloor.floor;
-    [basicStepProvider setIndoorLocation:indoorLocation];
+    ILIndoorLocation* location = [[ILIndoorLocation alloc] initWithProvider:basicStepProvider latitude:latLngFloor.coordinates.latitude longitude:latLngFloor.coordinates.longitude floor:latLngFloor.floor];
+    [sourceProvider setIndoorLocation:location];
 }
 
 @end

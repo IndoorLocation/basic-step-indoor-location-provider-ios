@@ -18,7 +18,7 @@ double const STEP_LENGTH = 1.0;
     NSTimer* timer;
 }
 
-- (instancetype)init
+- (instancetype)initWithSourceProvider:(ILIndoorLocationProvider*) sourceProvider
 {
     self = [super init];
     if (self) {
@@ -27,25 +27,9 @@ double const STEP_LENGTH = 1.0;
         motionManager.accelerometerUpdateInterval = 0.1;
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
+        self.sourceProvider = sourceProvider;
     }
     return self;
-}
-
-- (void) setIndoorLocation:(ILIndoorLocation*) indoorLocation {
-    lastIndoorLocation = indoorLocation;
-    [motionManager stopAccelerometerUpdates];
-    lowPassXAcceleration = 0.0;
-    lowPassYAcceleration = 0.0;
-    lowPassZAcceleration = 0.0;
-    accelerationBuffer = [[NSMutableArray alloc] init];
-    
-    [motionManager startAccelerometerUpdatesToQueue:NSOperationQueue.mainQueue withHandler:^(CMAccelerometerData * _Nullable accelerometerData, NSError * _Nullable error) {
-        if (accelerometerData != nil) {
-            [self processingSingleAccelerationMeasurement: accelerometerData.acceleration];
-        }
-    }];
-    
-    [self dispatchDidUpdateLocation:indoorLocation];
 }
 
 - (void) processingSingleAccelerationMeasurement:(CMAcceleration) acceleration {
@@ -112,6 +96,10 @@ double const STEP_LENGTH = 1.0;
         started = YES;
         [locationManager startUpdatingHeading];
         [self dispatchDidStart];
+        
+        if (self.sourceProvider) {
+            [self.sourceProvider addDelegate:self];
+        }
     }
 }
 
@@ -132,6 +120,37 @@ double const STEP_LENGTH = 1.0;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
     heading = newHeading.magneticHeading;
+}
+
+#pragma mark ILLocationProviderDelegate
+
+- (void)provider:(ILIndoorLocationProvider *)provider didFailWithError:(NSError *)error {
+    [self dispatchDidFailWithError:error];
+}
+
+- (void)provider:(ILIndoorLocationProvider *)provider didUpdateLocation:(ILIndoorLocation *)location {
+    lastIndoorLocation = location;
+    [motionManager stopAccelerometerUpdates];
+    lowPassXAcceleration = 0.0;
+    lowPassYAcceleration = 0.0;
+    lowPassZAcceleration = 0.0;
+    accelerationBuffer = [[NSMutableArray alloc] init];
+    
+    [motionManager startAccelerometerUpdatesToQueue:NSOperationQueue.mainQueue withHandler:^(CMAccelerometerData * _Nullable accelerometerData, NSError * _Nullable error) {
+        if (accelerometerData != nil) {
+            [self processingSingleAccelerationMeasurement: accelerometerData.acceleration];
+        }
+    }];
+    
+    [self dispatchDidUpdateLocation:location];
+}
+
+- (void)providerDidStart:(ILIndoorLocationProvider *)provider {
+    [self dispatchDidStart];
+}
+
+- (void)providerDidStop:(ILIndoorLocationProvider *)provider {
+    [self dispatchDidStop];
 }
 
 @end

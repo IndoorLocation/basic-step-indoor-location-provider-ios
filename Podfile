@@ -6,5 +6,6 @@ target 'basicstep-indoor-location-provider-ios' do
 
   pod 'IndoorLocation'
   pod 'MapwizeForMapbox'
+  pod 'ManualIndoorLocationProvider'
 end
 

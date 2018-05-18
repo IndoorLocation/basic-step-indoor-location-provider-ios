@@ -1,23 +1,20 @@
-# basic-step-indoor-location-provider-ios
-Concept of provider using the gyroscope and accelerometer to determine your location.
+# Basic Step IndoorLocation Provider for iOS
+
+This is a very very basic relative motion provider to illustrate how motion can be used to update a phone location from an inital location. It basically counts the steps you are making and makes the location to move of a fixed distance in the direction given by the compass.
+
+This provider is built for education purpose and is not intended to be used in critical applications. For a more precise and robust solution, we advise to have a look at the [Navisens IndoorLocation Provider](https://github.com/IndoorLocation/navisens-indoor-location-provider-ios).
 
 ## Use
 
-Instantiate the provider with Sensor System Service
+Instantiate the provider with an IndoorLocationProvider as source provider.
 ```
-ILBasicStepProvider = [[ILBasicStepLocationProvider alloc] init];
-```
-
-Set/Move provider's location:
-
-```
-[ILBasicStepProvider setIndoorLocation:indoorLocation];     
+ILBasicStepLocationProvider basicStepProvider = [[ILBasicStepLocationProvider alloc] initWithSourceProvider:sourceIndoorLocationProvider];
 ```
 
 Set the provider in your Mapwize SDK:
 
 ```
-[mapwizePlugin setIndoorLocationProvider:ILBasicStepProvider];
+[mapwizePlugin setIndoorLocationProvider:basicStepProvider];
 ```
 
 ## Demo
