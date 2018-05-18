@@ -17,8 +17,14 @@ Set the provider in your Mapwize SDK:
 [mapwizePlugin setIndoorLocationProvider:basicStepProvider];
 ```
 
-## Demo
-Tap on the screen to set your location.
+## Demo app
+A simple demo application to test the provider is available in the /app directory.
+
+You will need to set your credentials in BasicStepIndoorLocationProviderDemoApplication.
+
+A sample key is provided for Mapwize. Please note that this keys can only be used for testing purposes, with very limited traffic, and cannot be used in production. Get your own key from [mapwize.io](https://www.mapwize.io). Free accounts are available.
+
+To initialize the position, simply click on the map. Then move around and see the position moving.
 
 ## Contribute
 
